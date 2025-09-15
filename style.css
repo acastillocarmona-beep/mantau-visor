@@ -26,3 +26,10 @@ canvas {
   pointer-events: none;
   font-size: 14px;
 }
+
+#elementSelector {
+  margin: 10px auto;
+  display: block;
+  font-size: 16px;
+  padding: 6px;
+}
