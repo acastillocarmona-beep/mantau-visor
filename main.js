@@ -23,19 +23,39 @@ loader.load('assets/models/mantau_surf_a.glb', gltf => {
 });
 
 // Geoquímica
+let spheres = [];
+let geoData = [];
+
 fetch('assets/data/converted.json')
   .then(res => res.json())
   .then(data => {
-    data.forEach(sample => {
-      const geometry = new THREE.SphereGeometry(10, 8, 8);
-      const color = sample.Au_ppm > 0.03 ? 0xff0000 : 0x00ccff;
-      const material = new THREE.MeshBasicMaterial({ color });
-      const sphere = new THREE.Mesh(geometry, material);
-      sphere.position.set(sample.x, sample.y, sample.z);
-      sphere.userData = sample;
-      scene.add(sphere);
-    });
+    geoData = data;
+    renderSpheres('Au_ppm');
   });
+
+function renderSpheres(elementKey) {
+  spheres.forEach(s => scene.remove(s));
+  spheres = [];
+
+  geoData.forEach(sample => {
+    const value = sample[elementKey];
+    if (value === undefined) return;
+
+    const geometry = new THREE.SphereGeometry(10, 8, 8);
+    const color = value > 0.03 ? 0xff0000 : 0x00ccff;
+    const material = new THREE.MeshBasicMaterial({ color });
+    const sphere = new THREE.Mesh(geometry, material);
+    sphere.position.set(sample.x, sample.y, sample.z);
+    sphere.userData = { ...sample, elementKey };
+    scene.add(sphere);
+    spheres.push(sphere);
+  });
+}
+
+// Selector de elemento
+document.getElementById('elementSelector').addEventListener('change', e => {
+  renderSpheres(e.target.value);
+});
 
 // Tooltip
 const tooltip = document.getElementById('tooltip');
@@ -47,7 +67,7 @@ function onMouseMove(event) {
   mouse.y = - (event.clientY / 600) * 2 + 1;
 
   raycaster.setFromCamera(mouse, camera);
-  const intersects = raycaster.intersectObjects(scene.children);
+  const intersects = raycaster.intersectObjects(spheres);
 
   const intersect = intersects.find(obj => obj.object.userData.Sample_ID);
   if (intersect) {
@@ -57,8 +77,7 @@ function onMouseMove(event) {
     tooltip.style.top = event.clientY + 10 + 'px';
     tooltip.innerHTML = `
       <strong>${data.Sample_ID}</strong><br>
-      Au: ${data.Au_ppm} ppm<br>
-      Cu: ${data.Cu_ppm} ppm
+      ${data.elementKey.replace('_ppm', '')}: ${data[data.elementKey]} ppm
     `;
   } else {
     tooltip.style.display = 'none';
