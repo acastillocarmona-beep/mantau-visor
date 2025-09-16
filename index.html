@@ -4,9 +4,16 @@
   <meta charset="UTF-8">
   <title>Visor Geológico Mantau</title>
   <link rel="stylesheet" href="style.css">
-  <script src="https://cdn.jsdelivr.net/npm/three@0.152.2/build/three.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.152.2/examples/js/loaders/GLTFLoader.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.152.2/examples/js/controls/OrbitControls.js"></script>
+
+  <!-- Importmap para módulos Three.js -->
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://unpkg.com/three@0.153.0/build/three.module.js",
+      "three/addons/": "https://unpkg.com/three@0.153.0/examples/jsm/"
+    }
+  }
+  </script>
 </head>
 <body>
   <h2>Vista 360° del afloramiento</h2>
@@ -17,12 +24,13 @@
   <select id="elementSelector">
     <option value="Au_ppm">Au</option>
     <option value="Cu_ppm">Cu</option>
-    <option value="Zn_ppm">Fe</option>
+    <option value="Zn_ppm">Zn</option>
   </select>
 
   <canvas id="visor3D"></canvas>
   <div id="tooltip" style="display:none;"></div>
 
-  <script src="main.js"></script>
+  <!-- Script principal como módulo -->
+  <script type="module" src="main.js"></script>
 </body>
 </html>
