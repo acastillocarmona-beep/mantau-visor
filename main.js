@@ -1,3 +1,7 @@
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0xf0f0f0);
 
@@ -8,7 +12,7 @@ const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setSize(window.innerWidth, 600);
 document.getElementById('visor3D').appendChild(renderer.domElement);
 
-const controls = new THREE.OrbitControls(camera, renderer.domElement);
+const controls = new OrbitControls(camera, renderer.domElement);
 controls.target.set(0, 0, 0);
 controls.update();
 
@@ -17,7 +21,7 @@ light.position.set(1000, 1000, 1000);
 scene.add(light);
 
 // Modelo Leapfrog
-const loader = new THREE.GLTFLoader();
+const loader = new GLTFLoader();
 loader.load('assets/models/mantau_surf_a.glb', gltf => {
   scene.add(gltf.scene);
 });
@@ -52,12 +56,10 @@ function renderSpheres(elementKey) {
   });
 }
 
-// Selector de elemento
 document.getElementById('elementSelector').addEventListener('change', e => {
   renderSpheres(e.target.value);
 });
 
-// Tooltip
 const tooltip = document.getElementById('tooltip');
 const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
