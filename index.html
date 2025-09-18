@@ -2,10 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Visor Geológico Mantau</title>
-  <link rel="stylesheet" href="style.css">
-
-  <!-- Importmap para módulos Three.js -->
+  <title>Visor de prueba</title>
   <script type="importmap">
   {
     "imports": {
@@ -16,21 +13,7 @@
   </script>
 </head>
 <body>
-  <h2>Vista 360° del afloramiento</h2>
-  <iframe src="https://panoraven.com/es/embed/uuOrixbYNW" width="100%" height="500px" frameborder="0" allowfullscreen></iframe>
-
-  <h2>Modelo Leapfrog + Geoquímica</h2>
-  <label for="elementSelector">Elemento:</label>
-  <select id="elementSelector">
-    <option value="Au_ppm">Au</option>
-    <option value="Cu_ppm">Cu</option>
-    <option value="Fe_ppm">Fe</option>
-  </select>
-
   <canvas id="visor3D"></canvas>
-  <div id="tooltip" style="display:none;"></div>
-
-  <!-- Script principal como módulo -->
   <script type="module" src="main.js"></script>
 </body>
 </html>
