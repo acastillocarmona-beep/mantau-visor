@@ -21,7 +21,7 @@ scene.add(light);
 
 // Modelo de prueba
 const loader = new GLTFLoader();
-loader.load('https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/Duck/glTF/Duck.gltf', gltf => {
+loader.load('assets/models/duck.gltf', gltf => {
   scene.add(gltf.scene);
   console.log("Modelo cargado");
 });
